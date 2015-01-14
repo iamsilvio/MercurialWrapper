@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-using doe.Common.Diagnostic;
+using doe.Common.Diagnostics;
 
 namespace MercurialWrapper.Model
 {
@@ -104,6 +104,12 @@ namespace MercurialWrapper.Model
     /// </value>
     public Dictionary<int, string> ParentIds { get; set; }
 
+    /// <summary>
+    /// Gets or sets the parents.
+    /// </summary>
+    /// <value>
+    /// The parents.
+    /// </value>
     public List<ChangeSet> Parents { get; set; }
 
     /// <summary>
@@ -292,7 +298,6 @@ namespace MercurialWrapper.Model
       {
         Log.Warning("parents not found");
       }
-
     }
 
     public List<ChangeSet> GetParentChain()

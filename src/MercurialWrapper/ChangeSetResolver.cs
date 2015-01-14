@@ -1,24 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using doe.Common.Diagnostic;
+using doe.Common.Diagnostics;
 using MercurialWrapper.Model;
 
 namespace MercurialWrapper
 {
+  /// <summary>
+  /// 
+  /// </summary>
   class ChangeSetResolver
   {
     private readonly Mercurial _hg;
     private readonly Dictionary<string, Repository> _subRepositories =
       new Dictionary<string, Repository>();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChangeSetResolver"/> class.
+    /// </summary>
+    /// <param name="hg">a mercurial instanze</param>
+    /// <param name="repository">The repository to resolve.</param>
     public ChangeSetResolver(Mercurial hg, Repository repository)
     {
       _hg = hg;
       ResolveRepository(repository);
     }
 
-    public void ResolveRepository(Repository repository)
+    /// <summary>
+    /// Resolves the repository.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
+    private void ResolveRepository(Repository repository)
     {
 
       ResolveChangesets(repository);
@@ -26,6 +38,10 @@ namespace MercurialWrapper
       ResolveParentIds(repository);
     }
 
+    /// <summary>
+    /// Resolves the changesets of the given repository.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
     private void ResolveChangesets(Repository repository)
     {
       repository.ChangeLogEntries = _hg.HgLog(repository)
@@ -34,6 +50,10 @@ namespace MercurialWrapper
         .ToList();
     }
 
+    /// <summary>
+    /// Resolves the sub repo changes of the given repository.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
     private void ResolveSubRepoChanges(Repository repository)
     {
 
@@ -93,13 +113,19 @@ namespace MercurialWrapper
           }
           else
           {
-            Log.Error("the key already exists in this dict");
+            Log.Error(
+              string.Format("the key {0} already exists in SubRepoChanges", 
+                state.SubRepo.ToLower()));
           }
         }
       }
     }
 
 
+    /// <summary>
+    /// Resolves the parent ids of the given repository.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
     private void ResolveParentIds(Repository repository)
     {
       foreach (var change in repository.ChangeLogEntries
@@ -128,6 +154,13 @@ namespace MercurialWrapper
       }
     }
 
+    /// <summary>
+    /// Gets the change sets from range.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
+    /// <param name="fromRevision">From revision.</param>
+    /// <param name="toRevision">To revision.</param>
+    /// <returns></returns>
     private List<ChangeSet> GetChangeSetsFromRange(Repository repository, 
       string fromRevision, string toRevision)
     {
