@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MercurialWrapper", "Mercuri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "doe.Common", "..\..\CommonCSharpStuff\src\doe.Common\doe.Common.csproj", "{2776BCF2-3F63-4B6E-B94A-93856B88675F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MercurialWrapper_Test", "MercurialWrapper_Test\MercurialWrapper_Test.csproj", "{7051CDC6-C9F5-462A-B299-E0ACFF839A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2776BCF2-3F63-4B6E-B94A-93856B88675F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2776BCF2-3F63-4B6E-B94A-93856B88675F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2776BCF2-3F63-4B6E-B94A-93856B88675F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7051CDC6-C9F5-462A-B299-E0ACFF839A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7051CDC6-C9F5-462A-B299-E0ACFF839A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7051CDC6-C9F5-462A-B299-E0ACFF839A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7051CDC6-C9F5-462A-B299-E0ACFF839A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

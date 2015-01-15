@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using doe.Common.Diagnostics;
 using MercurialWrapper.Model;
@@ -9,7 +10,7 @@ namespace MercurialWrapper
   /// <summary>
   /// 
   /// </summary>
-  class ChangeSetResolver
+  public class ChangeSetResolver
   {
     private readonly Mercurial _hg;
     private readonly Dictionary<string, Repository> _subRepositories =
@@ -32,7 +33,6 @@ namespace MercurialWrapper
     /// <param name="repository">The repository.</param>
     private void ResolveRepository(Repository repository)
     {
-
       ResolveChangesets(repository);
       ResolveSubRepoChanges(repository);
       ResolveParentIds(repository);
@@ -101,15 +101,24 @@ namespace MercurialWrapper
         {
           if (!_subRepositories.ContainsKey(state.SubRepo.ToLower()))
           {
-            var subRepository = new Repository();
+            var subRepository = new Repository
+            {
+              LocalPath = Path.Combine(repository.LocalPath, 
+                                       state.SubRepo.ToLower())
+            };
             ResolveRepository(subRepository);
+
+            _subRepositories.Add(state.SubRepo.ToLower(),subRepository);
           }
 
           if (!change.SubRepoChanges.ContainsKey(state.SubRepo.ToLower()))
           {
-            change.SubRepoChanges.Add(state.SubRepo.ToLower(), 
-              GetChangeSetsFromRange(_subRepositories[state.SubRepo.ToLower()],
-                state.RemovedChangeset, state.AddedChangeset));
+
+            var cs = GetChangeSetsFromRange(_subRepositories[state.SubRepo.ToLower()],
+                state.RemovedChangeset, state.AddedChangeset);
+
+            change.SubRepoChanges.Add(state.SubRepo.ToLower(), cs);
+
           }
           else
           {
@@ -120,7 +129,6 @@ namespace MercurialWrapper
         }
       }
     }
-
 
     /// <summary>
     /// Resolves the parent ids of the given repository.
@@ -171,9 +179,56 @@ namespace MercurialWrapper
 
       if (f != null && l != null)
       {
-        return repository.ChangeLogEntries.Where(x => x.Branch == f.Branch 
-          && x.ChangeSetId <= l.ChangeSetId 
-          && x.ChangeSetId > f.ChangeSetId).ToList();
+        return GetChangeSetsFromRange(repository, f, l);
+      }
+      return new List<ChangeSet>();
+    }
+
+    /// <summary>
+    /// Gets the change sets from range.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
+    /// <param name="fromRevision">From revision.</param>
+    /// <param name="toRevision">To revision.</param>
+    /// <returns></returns>
+    private List<ChangeSet> GetChangeSetsFromRange(Repository repository,
+      ChangeSet fromRevision, ChangeSet toRevision)
+    {
+      if (fromRevision != null && toRevision != null)
+      {
+        return repository.ChangeLogEntries.Where(
+          x => x.Branch == fromRevision.Branch
+          && x.ChangeSetId <= toRevision.ChangeSetId
+          && x.ChangeSetId > fromRevision.ChangeSetId).ToList();
+      }
+      return new List<ChangeSet>();
+    }
+
+    /// <summary>
+    /// Gets the change sets between tags.
+    /// </summary>
+    /// <param name="repository">The repository.</param>
+    /// <param name="tag">The tag.</param>
+    /// <returns></returns>
+    public List<ChangeSet> GetChangeSetsBetweenTags(Repository repository,
+      string tag)
+    {
+      var tagedChangeSet = repository.ChangeLogEntries
+        .FirstOrDefault(x => x.Tag == tag);
+
+      if (tagedChangeSet != null)
+      {
+        var tagBeforeCurrent =
+        repository.ChangeLogEntries.OrderByDescending(x => x.ChangeSetId)
+          .FirstOrDefault(
+          x => x.ChangeSetId < tagedChangeSet.ChangeSetId 
+            && !string.IsNullOrEmpty(x.Tag) 
+            && x.Branch == tagedChangeSet.Branch);
+
+        if (tagBeforeCurrent != null)
+        {
+          return GetChangeSetsFromRange(repository, tagBeforeCurrent, tagedChangeSet);
+        }
       }
       return new List<ChangeSet>();
     }
