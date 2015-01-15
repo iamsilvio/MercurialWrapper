@@ -7,7 +7,7 @@
     <ProjectGuid>{9D709B70-4E0D-4C04-93A7-620C8AC82A49}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MercurialWrapper</RootNamespace>
+    <RootNamespace>doe.MercurialWrapper</RootNamespace>
     <AssemblyName>MercurialWrapper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

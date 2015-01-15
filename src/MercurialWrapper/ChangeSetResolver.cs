@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using doe.Common.Diagnostics;
-using MercurialWrapper.Model;
+using doe.MercurialWrapper.Model;
 
-namespace MercurialWrapper
+namespace doe.MercurialWrapper
 {
   /// <summary>
   /// 
@@ -101,11 +101,8 @@ namespace MercurialWrapper
         {
           if (!_subRepositories.ContainsKey(state.SubRepo.ToLower()))
           {
-            var subRepository = new Repository
-            {
-              LocalPath = Path.Combine(repository.LocalPath, 
-                                       state.SubRepo.ToLower())
-            };
+            var subRepository = new Repository(
+              Path.Combine(repository.LocalPath,state.SubRepo));
             ResolveRepository(subRepository);
 
             _subRepositories.Add(state.SubRepo.ToLower(),subRepository);
@@ -113,12 +110,10 @@ namespace MercurialWrapper
 
           if (!change.SubRepoChanges.ContainsKey(state.SubRepo.ToLower()))
           {
-
             var cs = GetChangeSetsFromRange(_subRepositories[state.SubRepo.ToLower()],
                 state.RemovedChangeset, state.AddedChangeset);
 
             change.SubRepoChanges.Add(state.SubRepo.ToLower(), cs);
-
           }
           else
           {

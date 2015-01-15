@@ -1,4 +1,4 @@
-namespace MercurialWrapper.Model
+namespace doe.MercurialWrapper.Model
 {
   /// <summary>
   /// List of possible Change Types

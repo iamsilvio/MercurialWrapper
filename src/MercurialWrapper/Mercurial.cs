@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using MercurialWrapper.Model;
 using doe.Common.Diagnostics;
+using doe.MercurialWrapper.Model;
 
-namespace MercurialWrapper
+namespace doe.MercurialWrapper
 {
     public class Mercurial
     {

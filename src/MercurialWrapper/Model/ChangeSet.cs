@@ -4,10 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 using doe.Common.Diagnostics;
 
-namespace MercurialWrapper.Model
+namespace doe.MercurialWrapper.Model
 {
   /// <summary>
   /// a representation of a Mercurial commit message

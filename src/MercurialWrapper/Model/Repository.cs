@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MercurialWrapper.Model
+namespace doe.MercurialWrapper.Model
 {
   /// <summary>
   /// 
@@ -22,5 +22,10 @@ namespace MercurialWrapper.Model
     /// The change log entries.
     /// </value>
     public List<ChangeSet> ChangeLogEntries { get; set; }
+
+    public Repository(string localPath)
+    {
+      LocalPath = localPath;
+    }
   }
 }
