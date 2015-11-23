@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using doe.Common.Diagnostics;
+using doe.Common.Diagnostics.Model;
 using doe.MercurialWrapper.Model;
 
 namespace doe.MercurialWrapper
@@ -15,6 +16,12 @@ namespace doe.MercurialWrapper
       /// <param name="hgPathExecutable">The path to the hg executable.</param>
       public Mercurial(string hgPathExecutable)
       {
+        if (!File.Exists(hgPathExecutable))
+        {
+          Log.Error(string.Format("mercurial not found at {0}", hgPathExecutable));
+          throw new FileNotFoundException("File not found", hgPathExecutable);
+        }
+
         _hgPathExecutable = hgPathExecutable;
       }
 
@@ -23,7 +30,7 @@ namespace doe.MercurialWrapper
       /// </summary>
       /// <param name="repo">The repo.</param>
       /// <returns></returns>
-      public string HgPull(Repository repo)
+      public BackgroundProcessResult HgPull(Repository repo)
       {
         var processInfo = new ProcessStartInfo
         {
@@ -40,7 +47,7 @@ namespace doe.MercurialWrapper
       /// <param name="repo">The repo.</param>
       /// <param name="revision">The revision.</param>
       /// <returns></returns>
-      public string HgUpdate(Repository repo, int revision)
+      public BackgroundProcessResult HgUpdate(Repository repo, string revision)
       {
         var processInfo = new ProcessStartInfo
         {
@@ -57,7 +64,7 @@ namespace doe.MercurialWrapper
       /// <param name="repoRemotePath">The repo remote path.</param>
       /// <param name="targetRoot">The target root.</param>
       /// <returns></returns>
-      public string HgClone(string repoRemotePath, string targetRoot)
+      public BackgroundProcessResult HgClone(string repoRemotePath, string targetRoot)
       {
         if (!Directory.Exists(targetRoot))
         {
@@ -80,7 +87,7 @@ namespace doe.MercurialWrapper
       /// <param name="fromRev">From rev.</param>
       /// <param name="toRev">To rev.</param>
       /// <returns></returns>
-      public string HgSubstates(Repository repo, int fromRev, int toRev)
+      public BackgroundProcessResult HgSubstates(Repository repo, int fromRev, int toRev)
       {
         var processInfo = new ProcessStartInfo
         {
@@ -90,13 +97,14 @@ namespace doe.MercurialWrapper
         };
         return BackgroundProcess.Execute(processInfo);
       }
+
       /// <summary>
       /// returns the output of a hg substates.
       /// </summary>
       /// <param name="repo">The repo.</param>
       /// <param name="rev">The rev.</param>
       /// <returns></returns>
-      public string HgSubstates(Repository repo, int rev)
+      public BackgroundProcessResult HgSubstates(Repository repo, int rev)
       {
         var processInfo = new ProcessStartInfo
         {
@@ -112,7 +120,7 @@ namespace doe.MercurialWrapper
       /// </summary>
       /// <param name="repo">The repo.</param>
       /// <returns></returns>
-      public string HgLog(Repository repo)
+      public BackgroundProcessResult HgLog(Repository repo)
       {
         var processInfo = new ProcessStartInfo
         {

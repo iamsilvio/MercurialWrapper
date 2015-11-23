@@ -44,7 +44,7 @@ namespace doe.MercurialWrapper
     /// <param name="repository">The repository.</param>
     private void ResolveChangesets(Repository repository)
     {
-      repository.ChangeLogEntries = _hg.HgLog(repository)
+      repository.ChangeLogEntries = _hg.HgLog(repository).Result
         .Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries)
         .Select(item => new ChangeSet(item, repository.LocalPath))
         .ToList();
@@ -61,8 +61,8 @@ namespace doe.MercurialWrapper
         ChangeLogEntries.Where(x => x.Files.Contains(".hgsubstate")))
       {
         var result = _hg.HgSubstates(repository, change.ChangeSetId);
-
-        var substates = result.Split(new[] {"\n"}, StringSplitOptions.None)
+        
+        var substates = result.Result.Split(new[] {"\n"}, StringSplitOptions.None)
           .Select(item => new SubState(item)).ToList()
           .Where(x => !string.IsNullOrEmpty(x.SubRepo)).ToList();
 
@@ -205,8 +205,7 @@ namespace doe.MercurialWrapper
     /// <param name="repository">The repository.</param>
     /// <param name="tag">The tag.</param>
     /// <returns></returns>
-    public List<ChangeSet> GetChangeSetsBetweenTags(Repository repository,
-      string tag)
+    public List<ChangeSet> GetChangeSetsBetweenTags(Repository repository, string tag)
     {
       var tagedChangeSet = repository.ChangeLogEntries
         .FirstOrDefault(x => x.Tag == tag);
