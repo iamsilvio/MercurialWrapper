@@ -14,7 +14,7 @@
     <tags></tags>
     <language>en-US</language>
     <dependencies>
-      <dependency id="DeleteOnError.Common" version="0.1.0.2" />
+      <dependency id="DeleteOnError.Common" version="0.1.0.3" />
     </dependencies>
   </metadata>
 </package>

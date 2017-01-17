@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace doe.MercurialWrapper.Model
+namespace deleteonerror.MercurialWrapper.Model
 {
   /// <summary>
   /// 

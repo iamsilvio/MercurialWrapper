@@ -1,4 +1,4 @@
-namespace doe.MercurialWrapper.Model
+namespace deleteonerror.MercurialWrapper.Model
 {
   /// <summary>
   /// List of possible Change Types

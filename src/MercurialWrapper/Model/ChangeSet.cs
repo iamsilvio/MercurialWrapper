@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using doe.Common.Diagnostics;
+using deleteonerror.Common.Diagnostics;
 
-namespace doe.MercurialWrapper.Model
+namespace deleteonerror.MercurialWrapper.Model
 {
   /// <summary>
   /// a representation of a Mercurial commit message
@@ -182,9 +182,7 @@ namespace doe.MercurialWrapper.Model
       var date = Regex.Match(item, @"(?:date:)(.*)(?:\.0)(-|\+)(\d*)");
       if (date.Success)
       {
-        Int32 unixTimeStamp;
-
-        if (!int.TryParse(date.Groups[1].Value, out unixTimeStamp))
+        if (!int.TryParse(date.Groups[1].Value, out int unixTimeStamp))
         {
           Log.Warning($"'{date.Groups[1].Value}' is not in the proper format.");
         }
@@ -285,9 +283,7 @@ namespace doe.MercurialWrapper.Model
         foreach (var par in parentStrings)
         {
           var valuePair = par.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-
-          int key;
-          if (int.TryParse(valuePair[0], out key))
+          if (int.TryParse(valuePair[0], out int key))
           {
             ParentIds.Add(key, valuePair[1]);
           }

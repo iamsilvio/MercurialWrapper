@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using doe.Common.Diagnostics;
-using doe.MercurialWrapper.Model;
+using deleteonerror.Common.Diagnostics;
+using deleteonerror.MercurialWrapper.Model;
 
-namespace doe.MercurialWrapper
+namespace deleteonerror.MercurialWrapper
 {
   /// <summary>
   /// 

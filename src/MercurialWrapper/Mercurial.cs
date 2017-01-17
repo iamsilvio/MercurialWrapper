@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using doe.Common.Diagnostics;
-using doe.Common.Diagnostics.Model;
-using doe.MercurialWrapper.Model;
+using deleteonerror.Common.Diagnostics;
+using deleteonerror.Common.Diagnostics.Model;
+using deleteonerror.MercurialWrapper.Model;
 
-namespace doe.MercurialWrapper
+namespace deleteonerror.MercurialWrapper
 {
     public class Mercurial
     {

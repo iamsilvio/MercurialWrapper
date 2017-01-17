@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace doe.MercurialWrapper.Model
+namespace deleteonerror.MercurialWrapper.Model
 {
   /// <summary>
   /// The State of a SubRepository
