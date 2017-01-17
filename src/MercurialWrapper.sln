@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MercurialWrapper", "MercurialWrapper\MercurialWrapper.csproj", "{9D709B70-4E0D-4C04-93A7-620C8AC82A49}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{84DDE0A5-242F-47AA-891A-1DE8E592690E}"
+	ProjectSection(SolutionItems) = preProject
+		MercurialWrapper\doe.MercurialWrapper.nuspec = MercurialWrapper\doe.MercurialWrapper.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
