@@ -182,7 +182,9 @@ namespace deleteonerror.MercurialWrapper.Model
       var date = Regex.Match(item, @"(?:date:)(.*)(?:\.0)(-|\+)(\d*)");
       if (date.Success)
       {
-        if (!int.TryParse(date.Groups[1].Value, out int unixTimeStamp))
+        int unixTimeStamp;
+
+        if (!int.TryParse(date.Groups[1].Value, out unixTimeStamp))
         {
           Log.Warning($"'{date.Groups[1].Value}' is not in the proper format.");
         }
@@ -283,7 +285,8 @@ namespace deleteonerror.MercurialWrapper.Model
         foreach (var par in parentStrings)
         {
           var valuePair = par.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-          if (int.TryParse(valuePair[0], out int key))
+          int key;
+          if (int.TryParse(valuePair[0], out key))
           {
             ParentIds.Add(key, valuePair[1]);
           }
