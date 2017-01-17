@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DeleteOnError.MercurialWrapper</id>
+    <version>0.1.0.0</version>
+    <authors>Silvio Katzmann</authors>
+    <owners>Silvio Katzmann</owners>
+    <licenseUrl>https://github.com/skat-delayed/MercurialWrapper/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/skat-delayed/MercurialWrapper</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>delete on error Mercurial wrapper</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags></tags>
+    <language>en-US</language>
+  </metadata>
+</package>
