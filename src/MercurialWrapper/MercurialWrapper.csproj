@@ -31,8 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="doe.Common, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\fischer\en.cfixBuildEnvironment\src\en.cfixBuildEnvironment\packages\DeleteOnError.Common.0.1.0.2\lib\net40\doe.Common.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\DeleteOnError.Common.0.1.0.2\lib\net40\doe.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

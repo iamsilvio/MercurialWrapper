@@ -55,7 +55,7 @@ namespace doe.MercurialWrapper.Model
     /// <value>
     /// The tag.
     /// </value>
-    public string Tag { get; set; }
+    public List<string> Tags { get; set; }
     /// <summary>
     /// Gets or sets the user.
     /// </summary>
@@ -127,7 +127,7 @@ namespace doe.MercurialWrapper.Model
     public string Repository { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LogEntry"/> class.
+    /// Initializes a new instance of the <see cref="ChangeSet"/> class.
     /// </summary>
     /// <param name="item">The item.</param>
     /// <param name="repo">The repo.</param>
@@ -145,9 +145,9 @@ namespace doe.MercurialWrapper.Model
       var changeset = Regex.Match(item, @"(?:changeset:)(\d{1,6})(?::)(\w{40})");
       if (changeset.Success)
       {
-        if (!Int32.TryParse(changeset.Groups[1].Value, out _changeSetId))
+        if (!int.TryParse(changeset.Groups[1].Value, out _changeSetId))
         {
-          Log.Warning(string.Format("'{0}' is not in the proper format.", changeset.Groups[1].Value));
+          Log.Warning($"'{changeset.Groups[1].Value}' is not in the proper format.");
         }
         ChangeSetHash = changeset.Groups[2].Value;
       }
@@ -171,7 +171,7 @@ namespace doe.MercurialWrapper.Model
       {
         if (tag.Groups[1].Value != "tip")
         {
-          Tag = tag.Groups[1].Value;
+          Tags = tag.Groups[1].Value.Split(' ').ToList();
         }
       }
       else
@@ -186,7 +186,7 @@ namespace doe.MercurialWrapper.Model
 
         if (!int.TryParse(date.Groups[1].Value, out unixTimeStamp))
         {
-          Log.Warning(string.Format("'{0}' is not in the proper format.", date.Groups[1].Value));
+          Log.Warning($"'{date.Groups[1].Value}' is not in the proper format.");
         }
 
         Date = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -202,7 +202,7 @@ namespace doe.MercurialWrapper.Model
       {
         Summary = summary.Groups[2].Value;
 
-        if (String.Compare(summary.Groups[1].Value, "F", StringComparison.OrdinalIgnoreCase) == 0)
+        if (string.Compare(summary.Groups[1].Value, "F", StringComparison.OrdinalIgnoreCase) == 0)
         {
           ChangeType = ChangeType.Feature;
         }

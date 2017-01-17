@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using doe.Common.Diagnostics;
@@ -31,11 +32,25 @@ namespace doe.MercurialWrapper
     /// Resolves the repository.
     /// </summary>
     /// <param name="repository">The repository.</param>
-    private void ResolveRepository(Repository repository)
+    /// <param name="includeSubrepos"></param>
+    public void ResolveRepository(Repository repository,bool includeSubrepos = false) 
     {
+      var sw = new Stopwatch();
+      sw.Start();
+      Console.WriteLine("---------------------");
+      
       ResolveChangesets(repository);
-      ResolveSubRepoChanges(repository);
+      Console.WriteLine(sw.Elapsed + " ResolveChangesets " + repository.LocalPath);
+      sw.Restart();
+      if (includeSubrepos)
+      {
+        ResolveSubRepoChanges(repository);
+        Console.WriteLine(sw.Elapsed + " ResolveSubRepoChanges " + repository.LocalPath);
+        sw.Restart();
+      }
       ResolveParentIds(repository);
+      Console.WriteLine(sw.Elapsed + " ResolveParentIds " + repository.LocalPath);
+      sw.Restart();
     }
 
     /// <summary>
@@ -56,7 +71,6 @@ namespace doe.MercurialWrapper
     /// <param name="repository">The repository.</param>
     private void ResolveSubRepoChanges(Repository repository)
     {
-
       foreach (var change in repository.
         ChangeLogEntries.Where(x => x.Files.Contains(".hgsubstate")))
       {
@@ -117,9 +131,7 @@ namespace doe.MercurialWrapper
           }
           else
           {
-            Log.Error(
-              string.Format("the key {0} already exists in SubRepoChanges", 
-                state.SubRepo.ToLower()));
+            Log.Error($"the key {state.SubRepo.ToLower()} already exists in SubRepoChanges");
           }
         }
       }
@@ -208,7 +220,7 @@ namespace doe.MercurialWrapper
     public List<ChangeSet> GetChangeSetsBetweenTags(Repository repository, string tag)
     {
       var tagedChangeSet = repository.ChangeLogEntries
-        .FirstOrDefault(x => x.Tag == tag);
+        .FirstOrDefault(x => x.Tags.Contains(tag));
 
       if (tagedChangeSet != null)
       {
@@ -216,7 +228,7 @@ namespace doe.MercurialWrapper
         repository.ChangeLogEntries.OrderByDescending(x => x.ChangeSetId)
           .FirstOrDefault(
           x => x.ChangeSetId < tagedChangeSet.ChangeSetId 
-            && !string.IsNullOrEmpty(x.Tag) 
+            && x.Tags != null 
             && x.Branch == tagedChangeSet.Branch);
 
         if (tagBeforeCurrent != null)

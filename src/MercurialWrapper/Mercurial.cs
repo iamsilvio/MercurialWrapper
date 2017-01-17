@@ -18,7 +18,7 @@ namespace doe.MercurialWrapper
       {
         if (!File.Exists(hgPathExecutable))
         {
-          Log.Error(string.Format("mercurial not found at {0}", hgPathExecutable));
+          Log.Error($"mercurial not found at {hgPathExecutable}");
           throw new FileNotFoundException("File not found", hgPathExecutable);
         }
 
@@ -92,7 +92,7 @@ namespace doe.MercurialWrapper
         var processInfo = new ProcessStartInfo
         {
           FileName = _hgPathExecutable,
-          Arguments = string.Format("diff -r {0}:{1} .hgsubstate -U 0", fromRev, toRev),
+          Arguments = $"diff -r {fromRev}:{toRev} .hgsubstate -U 0",
           WorkingDirectory = repo.LocalPath,
         };
         return BackgroundProcess.Execute(processInfo);
@@ -109,7 +109,7 @@ namespace doe.MercurialWrapper
         var processInfo = new ProcessStartInfo
         {
           FileName = _hgPathExecutable,
-          Arguments = string.Format("diff -c {0} .hgsubstate -U 0", rev),
+          Arguments = $"diff -c {rev} .hgsubstate -U 0",
           WorkingDirectory = repo.LocalPath,
         };
         return BackgroundProcess.Execute(processInfo);
